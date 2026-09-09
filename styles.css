@@ -1,0 +1,282 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f5f7;
+  color: #1f2933;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 330px minmax(650px, 1fr);
+  gap: 14px;
+  padding: 14px;
+  min-height: 100vh;
+}
+
+.card {
+  background: white;
+  border: 1px solid #cfd6dd;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.controls {
+  padding: 20px;
+}
+
+.controls h1 {
+  margin: 0 0 6px;
+  font-size: 24px;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: #5d6873;
+  line-height: 1.35;
+}
+
+.control-group {
+  margin-bottom: 24px;
+}
+
+.control-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.control-row {
+  display: grid;
+  grid-template-columns: 1fr 92px;
+  gap: 10px;
+  align-items: center;
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #aeb8c2;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: 1px solid #9aa5b1;
+  border-radius: 5px;
+  background: #f8fafc;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #eef2f6;
+}
+
+button.primary {
+  font-size: 17px;
+  font-weight: bold;
+  background: #e9eef3;
+}
+
+.status {
+  margin-top: 20px;
+  min-height: 56px;
+  white-space: pre-line;
+  line-height: 1.4;
+  font-size: 14px;
+}
+
+.status.ok {
+  color: #216e39;
+}
+
+.status.error {
+  color: #b42318;
+}
+
+.results {
+  padding: 10px 12px 14px;
+}
+
+.results h2 {
+  margin: 4px 0 10px;
+  font-size: 20px;
+}
+
+.diagram {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1225 / 806;
+  max-height: calc(100vh - 95px);
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid #d7dde3;
+  background: white;
+  margin: 0 auto;
+}
+
+.diagram-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.sky {
+  fill: #eef6fb;
+}
+
+.ground {
+  fill: #d9d2b6;
+}
+
+.atmosphere {
+  fill: rgba(200, 215, 230, 0.75);
+  stroke: #6b7c8f;
+  stroke-width: 2;
+}
+
+.layer-label {
+  font-size: 24px;
+  font-weight: bold;
+  fill: #38434f;
+}
+
+.surface-label {
+  font-size: 26px;
+}
+
+.small-label {
+  font-size: 17px;
+  fill: #3f4b57;
+}
+
+.sw-arrow, .lw-arrow {
+  stroke: #4a5662;
+  stroke-width: 7;
+  marker-end: url(#arrow);
+}
+
+.sw-arrow {
+  stroke-dasharray: 0;
+}
+
+.reflected {
+  stroke-width: 6;
+}
+
+.value-box, .temperature-box {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 6px 10px;
+  border-radius: 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.value-box {
+  background: rgba(255,255,255,0.94);
+  font-size: clamp(16px, 2vw, 30px);
+}
+
+.temperature-box {
+  background: #fffde0;
+  font-weight: bold;
+  font-size: clamp(15px, 1.7vw, 25px);
+}
+
+.pos-incoming { left: 27%; top: 13%; }
+.pos-reflected { left: 8%; top: 13%; }
+.pos-absorbed { left: 26.5%; top: 92%; }
+.pos-surface-lw { left: 55.5%; top: 92%; }
+.pos-atm-abs { left: 60%; top: 64%; }
+.pos-window { left: 53%; top: 13%; }
+.pos-atm-down { left: 74.5%; top: 92%; }
+.pos-atm-up { left: 74.5%; top: 13%; }
+.pos-air-temp { left: 90%; top: 50%; }
+.pos-surface-temp { left: 90%; top: 84%; }
+
+.units-note {
+  margin: 8px 2px 0;
+  font-size: 13px;
+  color: #66717d;
+}
+
+@media (max-width: 1000px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .diagram {
+    min-height: 500px;
+  }
+}
+
+
+/* Original radiation-balance JPG supplied by the user */
+.diagram-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: white;
+}
+
+
+/* Responsive sizing: keep the complete background image visible on screen */
+.results {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.results .diagram {
+  flex: 0 1 auto;
+}
+
+/* If browser height is the limiting dimension, reduce width automatically
+   while preserving the original image aspect ratio. */
+@supports (height: 100dvh) {
+  .diagram {
+    max-height: calc(100dvh - 95px);
+  }
+}
+
+/* Keep the full app inside the viewport on typical desktop/laptop screens. */
+@media (min-width: 1001px) {
+  .app-shell {
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .results {
+    overflow: hidden;
+  }
+
+  .diagram {
+    width: auto;
+    max-width: 100%;
+    height: min(calc(100vh - 95px), calc((100vw - 390px) * 806 / 1225));
+    aspect-ratio: 1225 / 806;
+  }
+
+  .diagram-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}

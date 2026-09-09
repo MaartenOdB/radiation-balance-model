@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Earth Radiation Balance Model</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section class="controls card">
+      <h1>Earth Radiation Balance Model</h1>
+      <p class="subtitle">Interactive one-layer radiation balance model</p>
+
+      <div class="control-group">
+        <label for="solarSlider">Solar constant (W m⁻²)</label>
+        <div class="control-row">
+          <input id="solarSlider" type="range" min="800" max="1600" step="1" value="1361" />
+          <input id="solarInput" type="number" min="800" max="1600" step="1" value="1361" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="albedoSlider">Earth albedo</label>
+        <div class="control-row">
+          <input id="albedoSlider" type="range" min="0" max="1" step="0.01" value="0.30" />
+          <input id="albedoInput" type="number" min="0" max="1" step="0.01" value="0.30" />
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="emissivitySlider">Atmospheric LW emissivity</label>
+        <div class="control-row">
+          <input id="emissivitySlider" type="range" min="0" max="1" step="0.01" value="0.80" />
+          <input id="emissivityInput" type="number" min="0" max="1" step="0.01" value="0.80" />
+        </div>
+      </div>
+
+      <button id="calculateButton" class="primary">Calculate</button>
+      <button id="resetButton">Reset to present Earth</button>
+
+      <div id="status" class="status"></div>
+    </section>
+
+    <section class="results card">
+      <h2>Radiation balance</h2>
+
+      <div class="diagram" aria-label="Radiation balance diagram">
+        <img class="diagram-bg" src="simpleRadiationBalanceImage2.jpg" alt="Radiation balance diagram" />
+
+        <div id="incomingSW" class="value-box pos-incoming">---</div>
+        <div id="reflectedSW" class="value-box pos-reflected">---</div>
+        <div id="absorbedSW" class="value-box pos-absorbed">---</div>
+
+        <div id="surfaceLW" class="value-box pos-surface-lw">---</div>
+        <div id="atmosAbsorbedLW" class="value-box pos-atm-abs">---</div>
+        <div id="lwWindow" class="value-box pos-window">---</div>
+        <div id="atmosDownwardLW" class="value-box pos-atm-down">---</div>
+        <div id="atmosUpwardLW" class="value-box pos-atm-up">---</div>
+
+        <div id="airTemp" class="temperature-box pos-air-temp">---</div>
+        <div id="surfaceTemp" class="temperature-box pos-surface-temp">---</div>
+      </div>
+
+      <p class="units-note">Radiative fluxes are shown in W m⁻².</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
