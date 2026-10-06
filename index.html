@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Radiation Balance Model</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <h1>Radiation Balance Model</h1>
+
+    <div class="main-layout">
+
+        <!-- ==================================================
+             LEFT: MODEL INPUTS
+             ================================================== -->
+
+        <div class="controls">
+
+            <h2>Model parameters</h2>
+
+            <div class="control">
+                <label for="solarConstant">
+                    Solar constant (W m⁻²)
+                </label>
+
+	   <input type="number"
+       		id="solarConstant"
+       		min="500"
+       		max="1500"
+       		value="1361">
+            </div>
+
+
+            <!-- Atmospheric albedo -->
+
+            <div class="albedo-control">
+
+                <div class="control">
+                    <label for="albedoAtmosphere">
+                        Atmospheric albedo
+                    </label>
+
+                    <input type="number"
+                           id="albedoAtmosphere"
+                           min="0"
+                           max="0.7"
+                           value="0.23"
+                           step="0.01">
+                </div>
+
+                <input type="range"
+                       id="albedoAtmosphereSlider"
+                       min="0"
+                       max="0.7"
+                       value="0.23"
+                       step="0.001">
+
+                <div class="slider-labels">
+                    <span>0</span>
+                    <span>0.1</span>
+                    <span>0.2</span>
+                    <span>0.3</span>
+                    <span>0.4</span>
+                    <span>0.5</span>
+                    <span>0.6</span>
+                    <span>0.7</span>
+                </div>
+
+            </div>
+
+
+            <!-- Surface albedo -->
+
+            <div class="albedo-control">
+
+                <div class="control">
+                    <label for="albedoSurface">
+                        Surface albedo
+                    </label>
+
+                    <input type="number"
+                           id="albedoSurface"
+                           min="0"
+                           max="0.7"
+                           value="0.120"
+                           step="0.001">
+                </div>
+
+                <input type="range"
+                       id="albedoSurfaceSlider"
+                       min="0"
+                       max="0.7"
+                       value="0.120"
+                       step="0.001">
+
+                <div class="slider-labels">
+                    <span>0</span>
+                    <span>0.1</span>
+                    <span>0.2</span>
+                    <span>0.3</span>
+                    <span>0.4</span>
+                    <span>0.5</span>
+                    <span>0.6</span>
+                    <span>0.7</span>
+                </div>
+
+            </div>
+
+
+            <!-- Greenhouse gases -->
+
+            <div class="control">
+                <label for="CO2">
+                    CO₂ (ppm)
+                </label>
+
+	   <input type="number"
+       		id="CO2"
+       		min="1"
+       		max="30000"
+       		step="1"
+       		value="424">
+
+            </div>
+
+            <div class="control">
+                <label for="CH4">
+                    CH₄ (ppb)
+                </label>
+
+               <input type="number"
+       		id="CH4"
+       		min="0"
+       		max="10000"
+       		step="1"
+       		value="1935">
+            </div>
+
+            <div class="control">
+                <label for="N2O">
+                    N₂O (ppb)
+                </label>
+
+       	    <input type="number"
+       		id="N2O"
+       		min="0"
+       		max="2000"
+       		step="1"
+       		value="339">
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div class="buttons">
+
+                <button id="calculateButton">
+                    Calculate
+                </button>
+
+                <button id="resetButton">
+                    Reset
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ==================================================
+             RIGHT: RADIATION BALANCE FIGURE
+             ================================================== -->
+
+        <div class="figure-panel">
+
+            <div class="figure-container">
+
+                <img src="radiationBalanceBackground.png"
+                     class="background-image"
+                     alt="Earth radiation balance">
+
+                <!-- Add a disclaimer text in the diagram -->
+
+		<div class="diagram-information">
+    			All fluxes in W m⁻². Original image credits: NASA.<br>
+    			Simplified global equilibrium model – built for educational purposes.<br>
+    			Extreme parameter values may produce unrealistic results.
+		</div>
+
+
+                <!-- Dynamic values will be positioned here -->
+
+		<!-- Shortwave fluxes -->
+
+		<div id="fluxSWTOA"
+     			class="flux-label flux-sw flux-sw-toa">340.3</div>
+
+		<div id="fluxSWReflectedAtmosphere"
+     			class="flux-label flux-sw flux-sw-reflected-atmosphere">78.3</div>
+
+		<div id="fluxSWAbsorbedAtmosphere"
+     			class="flux-label flux-sw flux-sw-absorbed-atmosphere">74.9</div>
+
+		<div id="fluxSWReflectedSurface"
+     			class="flux-label flux-sw flux-sw-reflected-surface">22.5</div>
+
+		<div id="fluxSWAbsorbedSurface"
+     			class="flux-label flux-sw flux-sw-absorbed-surface">164.7</div>
+
+		<!-- Longwave fluxes -->
+
+		<div id="fluxLWSurface"
+     			class="flux-label flux-lw flux-lw-surface">390.1</div>
+
+		<div id="fluxLWAbsorbedAtmosphere"
+     			class="flux-label flux-lw flux-lw-absorbed-atmosphere">350.1</div>
+
+		<div id="fluxLWAtmosphereDown"
+     			class="flux-label flux-lw flux-lw-atmosphere-down">328.4</div>
+
+		<div id="fluxLWAtmosphereUp"
+     			class="flux-label flux-outgoing flux-lw-atmosphere-up">182.5</div>
+
+		<div id="fluxLWWindow"
+     			class="flux-label flux-outgoing flux-lw-window">40.0</div>
+
+		<div id="fluxOLR"
+     			class="flux-label flux-outgoing flux-olr">222.5</div>
+
+		<!-- Non-radiative fluxes -->
+
+		<div id="fluxSensibleHeat"
+     			class="flux-label flux-turbulent flux-sensible">21.0</div>
+
+		<div id="fluxLatentHeat"
+     			class="flux-label flux-turbulent flux-latent">82.0</div>
+
+
+                <div class="surface-temperature-overlay">
+                    <span id="surfaceTemperature">15.0</span> °C
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

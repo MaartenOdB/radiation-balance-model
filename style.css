@@ -1,0 +1,387 @@
+/* ============================================================
+   Radiation Balance Model
+   ============================================================ */
+
+body {
+    margin: 0;
+    padding: 20px;
+
+    font-family: Arial, sans-serif;
+
+    background-color: #f4f4f4;
+}
+
+
+/* ------------------------------------------------------------
+   Main application
+   ------------------------------------------------------------ */
+
+.app {
+    max-width: 1500px;
+
+    margin: 0 auto;
+    padding: 25px;
+
+    background-color: white;
+
+    border: 1px solid #cccccc;
+}
+
+
+h1 {
+    margin-top: 0;
+    margin-bottom: 25px;
+
+    text-align: center;
+
+    font-size: 28px;
+}
+
+
+h2 {
+    margin-top: 0;
+
+    font-size: 18px;
+}
+
+
+/* ------------------------------------------------------------
+   Two-column layout
+   ------------------------------------------------------------ */
+
+.main-layout {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 25px;
+}
+
+
+/* ------------------------------------------------------------
+   LEFT PANEL
+   ------------------------------------------------------------ */
+
+.controls {
+    flex: 0 0 300px;
+
+    padding: 20px;
+
+    border: 1px solid #cccccc;
+}
+
+
+.control {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 12px 0;
+}
+
+
+.control label {
+    font-size: 15px;
+}
+
+
+.control input[type="number"] {
+    width: 90px;
+
+    padding: 5px;
+
+    font-size: 15px;
+
+    text-align: right;
+}
+
+
+/* ------------------------------------------------------------
+   Albedo sliders
+   ------------------------------------------------------------ */
+
+.albedo-control {
+    margin: 12px 0 25px 0;
+}
+
+
+.albedo-control .control {
+    margin-bottom: 8px;
+}
+
+
+.albedo-control input[type="range"] {
+    width: 100%;
+
+    margin: 5px 0 2px 0;
+}
+
+
+.slider-labels {
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 11px;
+}
+
+
+/* ------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------ */
+
+.buttons {
+    margin-top: 22px;
+}
+
+
+button {
+    padding: 8px 18px;
+
+    margin-right: 8px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+
+/* ------------------------------------------------------------
+   RIGHT PANEL
+   ------------------------------------------------------------ */
+
+.figure-panel {
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+/*
+   This container is important.
+
+   All future flux labels will be positioned relative to this
+   container, so they remain aligned with the background image.
+*/
+
+.figure-container {
+    position: relative;
+
+    width: 100%;
+}
+
+
+.background-image {
+    display: block;
+
+    width: 100%;
+    height: auto;
+}
+
+
+/* ------------------------------------------------------------
+   Surface temperature overlay
+   Temporary position - we will fine-tune this later
+   ------------------------------------------------------------ */
+
+.surface-temperature-overlay {
+    position: absolute;
+
+    left: 50%;
+    bottom: 5%;
+
+    transform: translateX(-50%);
+
+    padding: 6px 12px;
+
+    background-color: white;
+
+    border: 1px solid #777777;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    text-align: center;
+}
+
+
+#surfaceTemperature {
+    font-size: 20px;
+}
+
+
+/* ------------------------------------------------------------
+   Information
+   ------------------------------------------------------------ */
+
+.information {
+    margin-top: 20px;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* ------------------------------------------------------------
+   Smaller screens
+   ------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .controls {
+        width: auto;
+        flex: none;
+    }
+
+}
+
+/* ============================================================
+   Dynamic flux labels
+   ============================================================ */
+
+.flux-label {
+    position: absolute;
+
+    font-size: 18px;
+    font-weight: bold;
+    font-style: normal;
+
+    white-space: nowrap;
+
+    transform: translate(-50%, -50%);
+}
+
+
+/* Shortwave: yellow */
+
+.flux-sw {
+    color: yellow;
+}
+
+
+/* Longwave: gold/orange */
+
+.flux-lw {
+    color: rgb(237, 177, 32);
+}
+
+
+/* Outgoing infrared: red-orange */
+
+.flux-outgoing {
+    color: rgb(245, 119, 41);
+}
+
+
+/* Sensible and latent heat: purple */
+
+.flux-turbulent {
+    color: rgb(133, 22, 209);
+}
+
+
+/* ============================================================
+   Flux positions
+   Percentages relative to background image
+   ============================================================ */
+
+/* incoming solar */
+.flux-sw-toa {
+    left: 13.1%;
+    top: 15.5%;
+}
+
+/* reflected by clouds and atmosphere */
+.flux-sw-reflected-atmosphere {
+    left: 25.1%;
+    top: 11%;
+}
+
+/* absorbed by atmosphere */
+.flux-sw-absorbed-atmosphere {
+    left: 2.4%;
+    top: 50%;
+}
+
+/* reflected by surface */
+.flux-sw-reflected-surface {
+    left: 42.6%;
+    top: 11%;
+}
+
+/* absorbed by surface */
+.flux-sw-absorbed-surface {
+    left: 25.7%;
+    top: 77.3%;
+}
+
+
+/* surface longwave emission */
+.flux-lw-surface {
+    left: 39.6%;
+    top: 73.7%;
+}
+
+/* LW absorbed by atmosphere */
+.flux-lw-absorbed-atmosphere {
+    left: 41.1%;
+    top: 46%;
+}
+
+/* atmospheric downward LW */
+.flux-lw-atmosphere-down {
+    left: 67.6%;
+    top: 73.7%;
+}
+
+/* atmospheric upward LW */
+.flux-lw-atmosphere-up {
+    left: 44.4%;
+    top: 28.8%;
+}
+
+/* atmospheric window */
+.flux-lw-window {
+    left: 64.8%;
+    top: 34%;
+}
+
+/* total outgoing LW */
+.flux-olr {
+    left: 53.5%;
+    top: 11.0%;
+}
+
+
+/* sensible heat */
+.flux-sensible {
+    left: 81.5%;
+    top: 64%;
+}
+
+/* latent heat */
+.flux-latent {
+    left: 93%;
+    top: 64%;
+}
+
+.diagram-information {
+    position: absolute;
+
+    left: 0.3%;
+    bottom: 0.9%;
+
+    padding: 6px 9px;
+
+    color: white;
+
+    font-size: 12px;
+    line-height: 1.4;
+
+    border-radius: 3px;
+}
