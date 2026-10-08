@@ -596,7 +596,7 @@ resetButton.addEventListener("click", function () {
 
     // Restore reference-climate input values
     document.getElementById("solarConstant").value = 1361;
-    document.getElementById("albedoAtmosphere").value = "0.23";
+    document.getElementById("albedoAtmosphere").value = "0.230";
     document.getElementById("albedoSurface").value = "0.120";
     document.getElementById("CO2").value = 424;
     document.getElementById("CH4").value = 1935;
@@ -637,7 +637,7 @@ const albedoAtmosphereInput =
 albedoAtmosphereSlider.addEventListener("input", function () {
 
     albedoAtmosphereInput.value =
-        Number(albedoAtmosphereSlider.value).toFixed(2);
+        Number(albedoAtmosphereSlider.value).toFixed(3);
 
 });
 
@@ -660,7 +660,7 @@ albedoAtmosphereInput.addEventListener("change", function () {
     value = Math.max(0, Math.min(0.7, value));
 
     // Update numeric field and slider
-    albedoAtmosphereInput.value = value.toFixed(2);
+    albedoAtmosphereInput.value = value.toFixed(3);
     albedoAtmosphereSlider.value = value;
 
 });
